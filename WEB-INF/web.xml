@@ -1,0 +1,28 @@
+<web-app>
+    <servlet>
+        <servlet-name>FormServlet</servlet-name>
+        <servlet-class>com.examportal.servlet.FormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FormServlet</servlet-name>
+        <url-pattern>/FormServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExamServlet</servlet-name>
+        <servlet-class>com.examportal.servlet.ExamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExamServlet</servlet-name>
+        <url-pattern>/ExamServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ResultServlet</servlet-name>
+        <servlet-class>com.examportal.servlet.ResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResultServlet</servlet-name>
+        <url-pattern>/ResultServlet</url-pattern>
+    </servlet-mapping>
+</web-app>

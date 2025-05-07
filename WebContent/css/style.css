@@ -1,0 +1,140 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  /* Card Container */
+  .card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.7s ease;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Form Styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  select {
+    padding: 12px 15px;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s ease;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: #4facfe;
+    outline: none;
+    box-shadow: 0 0 8px #4facfeaa;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background: linear-gradient(135deg, #2bd2ff 0%, #3a7bd5 100%);
+    transform: scale(1.05);
+  }
+  
+  /* Headings */
+  h1, h2, h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  
+  /* Paragraph and Labels */
+  p, label {
+    font-size: 16px;
+    color: #444;
+  }
+  
+  /* Result Highlights */
+  .result-box {
+    background: linear-gradient(to right, #ffe29f, #ffa99f);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #222;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  /* Radio Button Question Form */
+  input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #38f9d7;
+  }
+  
+  /* Custom Divider */
+  hr {
+    border: none;
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .card {
+      padding: 20px;
+    }
+  
+    button {
+      font-size: 14px;
+    }
+  }
+  
