@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Card</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Student Card</h2>
+    <div class="card">
+        <p><strong>Name:</strong> <span th:text="${student.name}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${student.email}"></span></p>
+        <p><strong>Contact:</strong> <span th:text="${student.contact}"></span></p>
+        <p><strong>Department:</strong> <span th:text="${student.department}"></span></p>
+        <p><strong>Roll Number:</strong> <span th:text="${student.rollNumber}"></span></p>
+    </div>
+    <a href="/select-subject">Proceed to Exam</a>
+</body>
+</html>

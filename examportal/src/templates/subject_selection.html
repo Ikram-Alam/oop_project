@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select Subject</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Select a Subject for the Exam</h2>
+    <form action="/start-exam" method="post">
+        <select name="subject" required>
+            <option value="Math">Math</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Computer">Computer</option>
+        </select>
+        <button type="submit">Start Exam</button>
+    </form>
+</body>
+</html>

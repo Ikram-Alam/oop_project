@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exam Result</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Result</h2>
+    <div class="card">
+        <p><strong>Name:</strong> <span th:text="${result.student.name}"></span></p>
+        <p><strong>Roll Number:</strong> <span th:text="${result.student.rollNumber}"></span></p>
+        <p><strong>Marks:</strong> <span th:text="${result.marks}"></span></p>
+        <p><strong>Grade:</strong> <span th:text="${result.grade}"></span></p>
+    </div>
+    <a href="/">Register New Student</a>
+</body>
+</html>

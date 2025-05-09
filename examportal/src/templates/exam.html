@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exam - [[${subject}]]</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>[[${subject}]] Exam</h2>
+    <form action="/submit-exam" method="post">
+        <div th:each="q, iterStat : ${questions}">
+            <p th:text="'Q' + ${iterStat.index + 1} + ': ' + ${q.questionText}"></p>
+            <input type="text" name="answers" required><br>
+        </div>
+        <button type="submit">Submit Exam</button>
+    </form>
+</body>
+</html>
