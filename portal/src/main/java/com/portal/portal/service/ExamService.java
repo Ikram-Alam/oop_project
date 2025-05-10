@@ -1,6 +1,6 @@
-package com.examportal.service;
+package com.portal.portal.service;
 
-import com.examportal.model.Question;
+import com.portal.portal.model.Question;
 import java.util.*;
 
 import org.springframework.stereotype.Service;

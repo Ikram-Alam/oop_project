@@ -1,7 +1,7 @@
-package com.examportal.controller;
+package com.portal.portal.controller;
 
-import com.examportal.model.*;
-import com.examportal.service.ExamService;
+import com.portal.portal.model.*;
+import com.portal.portal.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import java.util.*;
 public class ExamController {
     private Student currentStudent;
     private List<Question> currentQuestions;
-    private String selectedSubject;
+    String selectedSubject;
 
     @Autowired
     private ExamService examService;
