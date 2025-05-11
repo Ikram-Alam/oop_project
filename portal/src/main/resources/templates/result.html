@@ -1,17 +1,230 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Exam Result</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>Result Card</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f1f8fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-image: linear-gradient(135deg, #74ebd5, #ACB6E5);
+        }
+
+        .card {
+            width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: scale(0.8);
+            animation: cardZoom 0.6s ease-out forwards;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Card Header */
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Info section */
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .info p {
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .info p:hover {
+            color: #2e6da4;
+            font-weight: bold;
+            transform: scale(1.05);
+        }
+
+        .info strong {
+            color: #333;
+        }
+
+        /* Grade section */
+        .grade {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 30px;
+            color: #27ae60;
+            animation: bounceIn 1s ease-out;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            animation: confetti-fall 4s ease-in-out infinite;
+        }
+
+        .confetti div {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #f39c12;
+            animation: confetti-animation 2s linear infinite;
+        }
+
+        .confetti div:nth-child(odd) {
+            background-color: #e74c3c;
+        }
+
+        .confetti div:nth-child(3n) {
+            background-color: #1abc9c;
+        }
+
+        /* Animations */
+        @keyframes cardZoom {
+            0% {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                top: -30%;
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes confetti-animation {
+            0% {
+                transform: rotate(0deg) translateX(0) translateY(0);
+            }
+            25% {
+                transform: rotate(90deg) translateX(100px) translateY(100px);
+            }
+            50% {
+                transform: rotate(180deg) translateX(-100px) translateY(200px);
+            }
+            75% {
+                transform: rotate(270deg) translateX(150px) translateY(300px);
+            }
+            100% {
+                transform: rotate(360deg) translateX(200px) translateY(400px);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .card {
+                width: 90%;
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .info p {
+                font-size: 16px;
+            }
+
+            .grade {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Result</h2>
-    <div class="card">
-        <p><strong>Name:</strong> <span th:text="${result.student.name}"></span></p>
-        <p><strong>Roll Number:</strong> <span th:text="${result.student.rollNumber}"></span></p>
-        <p><strong>Marks:</strong> <span th:text="${result.marks}"></span></p>
-        <p><strong>Grade:</strong> <span th:text="${result.grade}"></span></p>
+
+    <!-- Confetti Animation -->
+    <div class="confetti">
+        <div style="left: 10%; animation-delay: 0.5s;"></div>
+        <div style="left: 25%; animation-delay: 1s;"></div>
+        <div style="left: 45%; animation-delay: 1.5s;"></div>
+        <div style="left: 65%; animation-delay: 2s;"></div>
+        <div style="left: 85%; animation-delay: 2.5s;"></div>
     </div>
-    <a href="/">Register New Student</a>
+
+    <!-- Result Card -->
+    <div class="card">
+        <h2>Result Card</h2>
+        <div class="info">
+            <p><strong>Name:</strong> <span th:text="${studentName}"></span></p>
+            <p><strong>Roll No:</strong> <span th:text="${rollNo}"></span></p>
+            <p><strong>Subject:</strong> <span th:text="${subject}"></span></p>
+            <p><strong>Total Marks:</strong> <span th:text="${marks} + ' / 15'"></span></p>
+        </div>
+        <div class="grade">
+            <strong>Grade:</strong> <span th:text="${grade}"></span>
+        </div>
+    </div>
+
+    <script>
+        // Dynamically generate confetti pieces and animate
+        let confettiContainer = document.querySelector('.confetti');
+        for (let i = 0; i < 30; i++) {
+            let confettiPiece = document.createElement('div');
+            confettiPiece.style.left = `${Math.random() * 100}%`;
+            confettiPiece.style.animationDuration = `${Math.random() * 2 + 2}s`; // Randomize speed
+            confettiPiece.style.animationDelay = `${Math.random() * 2}s`; // Randomize start time
+            confettiContainer.appendChild(confettiPiece);
+        }
+
+        // Optional: Play sound effect (Uncomment the line below if you want to add a sound effect)
+        // new Audio('celebration_sound.mp3').play();
+    </script>
+
 </body>
 </html>

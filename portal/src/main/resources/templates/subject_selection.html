@@ -2,18 +2,146 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Select Subject</title>
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #d4fc79, #96e6a1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subject-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .subject-box {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .subject-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .subject-box button {
+            position: absolute;
+            bottom: 10px;
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .subject-box button:hover {
+            background: linear-gradient(to right, #2bc0e4, #eaecc6);
+            transform: scale(1.05);
+        }
+
+        .subject-box button:active {
+            transform: scale(0.95);
+        }
+
+        .subject-box.static {
+            background-color: #f7f7f7;
+            pointer-events: none;
+        }
+
+        .subject-box.static:hover {
+            box-shadow: none;
+            transform: none;
+        }
+
+        .subject-box.static button {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .subject-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .subject-box {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Select a Subject for the Exam</h2>
-    <form action="/start-exam" method="post">
-        <select name="subject" required>
-            <option value="Math">Math</option>
-            <option value="Physics">Physics</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Computer">Computer</option>
-        </select>
-        <button type="submit">Start Exam</button>
-    </form>
+    <h2>Select Subject to Start Exam</h2>
+    <div class="subject-container">
+        <div class="subject-box" style="background: #ff9a8b;">
+            <span>Math</span>
+            <form action="/start-exam" method="post">
+                <input type="hidden" name="subject" value="Math">
+                <button type="submit">Start Exam</button>
+            </form>
+        </div>
+        <div class="subject-box" style="background: #8fd3f4;">
+            <span>Science</span>
+            <form action="/start-exam" method="post">
+                <input type="hidden" name="subject" value="Science">
+                <button type="submit">Start Exam</button>
+            </form>
+        </div>
+        <!-- Static boxes -->
+        <div class="subject-box static">
+            <span>History</span>
+        </div>
+        <div class="subject-box static">
+            <span>Geography</span>
+        </div>
+        <div class="subject-box static">
+            <span>Physics</span>
+        </div>
+        <div class="subject-box static">
+            <span>Chemistry</span>
+        </div>
+    </div>
 </body>
 </html>

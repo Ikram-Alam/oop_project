@@ -10,7 +10,7 @@ import java.util.*;
 
 @Controller
 public class ExamController {
-    private Student currentStudent;
+    Student currentStudent;
     private List<Question> currentQuestions;
     String selectedSubject;
 
@@ -22,13 +22,13 @@ public class ExamController {
         return "form";
     }
 
-    @PostMapping("/submit-form")
-    public String submitForm(@ModelAttribute Student student, Model model) {
-        student.setRollNumber("ROLL" + new Random().nextInt(1000));
-        this.currentStudent = student;
-        model.addAttribute("student", student);
-        return "student_card";
-    }
+@PostMapping("/submit-form")
+public String submitForm(@ModelAttribute Student student, Model model) {
+    student.setRollNumber("ROLL" + new Random().nextInt(1000));
+    this.currentStudent = student;
+    model.addAttribute("student", student);
+    return "student_card";  // this should match your HTML template name in `templates/`
+}
 
     @GetMapping("/select-subject")
     public String selectSubject() {
@@ -38,21 +38,30 @@ public class ExamController {
     @PostMapping("/start-exam")
     public String startExam(@RequestParam String subject, Model model) {
         this.selectedSubject = subject;
-        currentQuestions = examService.getQuestions(subject);
+        this.currentQuestions = examService.getQuestions(subject);
         model.addAttribute("questions", currentQuestions);
         model.addAttribute("subject", subject);
         return "exam";
     }
 
-    @PostMapping("/submit-exam")
-    public String submitExam(@RequestParam List<String> answers, Model model) {
-        int marks = examService.calculateMarks(answers, currentQuestions);
-        String grade = examService.getGrade(marks);
-        Result result = new Result();
-        result.setStudent(currentStudent);
-        result.setMarks(marks);
-        result.setGrade(grade);
-        model.addAttribute("result", result);
-        return "result";
+@PostMapping("/submit-exam")
+public String submitExam(@RequestParam Map<String, String> allParams, Model model) {
+    List<String> userAnswers = new ArrayList<>();
+    for (int i = 0; i < currentQuestions.size(); i++) {
+        userAnswers.add(allParams.get("answers[" + i + "]"));
+    }
+
+    int marks = examService.calculateMarks(userAnswers, currentQuestions);
+    String grade = examService.getGrade(marks);
+
+    model.addAttribute("marks", marks);
+    model.addAttribute("grade", grade);
+    model.addAttribute("subject", selectedSubject);
+
+    // Dummy student info (you can enhance this later)
+    model.addAttribute("studentName", "Ikram Alam");
+    model.addAttribute("rollNo", "2025-SE-001");
+
+    return "result";
     }
 }
