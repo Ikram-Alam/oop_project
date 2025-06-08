@@ -44,6 +44,27 @@ public String submitForm(@ModelAttribute Student student, Model model) {
         return "exam";
     }
 
+
+// @PostMapping("/submit-exam")
+// public String submitExam(@RequestParam Map<String, String> allParams, Model model,Student student) {
+//     List<String> userAnswers = new ArrayList<>();
+//     for (int i = 0; i < currentQuestions.size(); i++) {
+//         userAnswers.add(allParams.get("answers[" + i + "]"));
+//     }
+
+//     int marks = examService.calculateMarks(userAnswers, currentQuestions);
+//     String grade = examService.getGrade(marks);
+
+//     model.addAttribute("marks", marks);
+//     model.addAttribute("grade", grade);
+//     model.addAttribute("subject", selectedSubject);
+
+//     // Dummy student info (you can enhance this later)
+//     model.addAttribute("studentName", student);
+//     model.addAttribute("rollNo", "2025-SE-001");
+
+//     return "result";
+//     }
 @PostMapping("/submit-exam")
 public String submitExam(@RequestParam Map<String, String> allParams, Model model) {
     List<String> userAnswers = new ArrayList<>();
@@ -58,10 +79,10 @@ public String submitExam(@RequestParam Map<String, String> allParams, Model mode
     model.addAttribute("grade", grade);
     model.addAttribute("subject", selectedSubject);
 
-    // Dummy student info (you can enhance this later)
-    model.addAttribute("studentName", "Ikram Alam");
-    model.addAttribute("rollNo", "2025-SE-001");
+    // ✅ Use actual student info from currentStudent
+    model.addAttribute("studentName", currentStudent.getName());
+    model.addAttribute("rollNo", currentStudent.getRollNumber());
 
     return "result";
-    }
+}
 }
