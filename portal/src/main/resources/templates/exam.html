@@ -27,9 +27,16 @@
             text-align: center;
             font-size: 32px;
             font-weight: 600;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             color: #333;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ff3333;
+            margin-bottom: 20px;
         }
 
         form {
@@ -69,14 +76,14 @@
         }
 
         .checkbox {
-            display: inline-block;
-            margin-bottom: 15px;
+            display: block;
+            margin-bottom: 10px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
         }
 
-        .checkbox input[type="checkbox"] {
+        .checkbox input[type="radio"] {
             margin-right: 10px;
             cursor: pointer;
         }
@@ -109,7 +116,6 @@
             margin: 20px 0;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             h2 {
                 font-size: 28px;
@@ -128,26 +134,27 @@
 <body>
 
 <h2 th:text="'Exam - ' + ${subject}"></h2>
+<p id="timer">Time left: 30 seconds</p>
 
-<form action="/submit-exam" method="post">
+<form id="examForm" action="/submit-exam" method="post">
     <ol>
         <li th:each="question, iterStat : ${questions}">
             <p th:text="${question.text}"></p>
             <div class="options">
                 <label class="checkbox">
-                    <input type="checkbox" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionA}">
+                    <input type="radio" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionA}" required>
                     <span th:text="${question.optionA}"></span>
                 </label>
                 <label class="checkbox">
-                    <input type="checkbox" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionB}">
+                    <input type="radio" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionB}">
                     <span th:text="${question.optionB}"></span>
                 </label>
                 <label class="checkbox">
-                    <input type="checkbox" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionC}">
+                    <input type="radio" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionC}">
                     <span th:text="${question.optionC}"></span>
                 </label>
                 <label class="checkbox">
-                    <input type="checkbox" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionD}">
+                    <input type="radio" th:name="'answers[' + ${iterStat.index} + ']'" th:value="${question.optionD}">
                     <span th:text="${question.optionD}"></span>
                 </label>
             </div>
@@ -156,6 +163,23 @@
     </ol>
     <button type="submit">Submit Exam</button>
 </form>
+
+<script>
+    let timeLeft = 30;
+    const timerDisplay = document.getElementById("timer");
+    const form = document.getElementById("examForm");
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time left: ${timeLeft} seconds`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            alert("Time is up! Auto-submitting the exam.");
+            form.submit();
+        }
+    }, 1000);
+</script>
 
 </body>
 </html>

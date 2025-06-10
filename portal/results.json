@@ -1,0 +1,27 @@
+{
+  "name": "Ikram Alam",
+  "rollNumber": "ROLL384",
+  "subject": "Math",
+  "marks": 3,
+  "percentage": "20.00",
+  "grade": "F"
+}
+,
+{
+  "name": "asma",
+  "rollNumber": "ROLL856",
+  "subject": "Science",
+  "marks": 3,
+  "percentage": "20.00",
+  "grade": "F"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL606",
+  "subject": "Math",
+  "marks": 5,
+  "percentage": "33.33",
+  "grade": "C"
+}
+,
