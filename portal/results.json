@@ -25,3 +25,102 @@
   "grade": "C"
 }
 ,
+{
+  "name": "Muhammad Ikram Alam",
+  "rollNumber": "ROLL187",
+  "subject": "Science",
+  "marks": 7,
+  "percentage": "46.67",
+  "grade": "C"
+}
+,
+{
+  "name": "mashood",
+  "rollNumber": "ROLL310",
+  "subject": "Math",
+  "marks": 5,
+  "percentage": "33.33",
+  "grade": "C"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL188",
+  "subject": "Computer Science",
+  "marks": 6,
+  "percentage": "40.00",
+  "grade": "C"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL903",
+  "subject": "Math",
+  "marks": 5,
+  "percentage": "33.33",
+  "grade": "C"
+}
+,
+{
+  "name": "Ikram",
+  "rollNumber": "ROLL28",
+  "subject": "Math",
+  "marks": 12,
+  "percentage": "80.00",
+  "grade": "B"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL430",
+  "subject": "Computer Science",
+  "marks": 2,
+  "percentage": "13.33",
+  "grade": "F"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL624",
+  "subject": "Math",
+  "marks": 2,
+  "percentage": "13.33",
+  "grade": "F"
+}
+,
+{
+  "name": "ikram",
+  "rollNumber": "ROLL335",
+  "subject": "Math",
+  "marks": 11,
+  "percentage": "73.33",
+  "grade": "B"
+}
+,
+{
+  "name": "ayan",
+  "rollNumber": "ROLL656",
+  "subject": "Math",
+  "marks": 10,
+  "percentage": "66.67",
+  "grade": "B"
+}
+,
+{
+  "name": "test",
+  "rollNumber": "ROLL213",
+  "subject": "Science",
+  "marks": 4,
+  "percentage": "26.67",
+  "grade": "F"
+}
+,
+{
+  "name": "mashood",
+  "rollNumber": "ROLL729",
+  "subject": "Science",
+  "marks": 5,
+  "percentage": "33.33",
+  "grade": "C"
+}
+,

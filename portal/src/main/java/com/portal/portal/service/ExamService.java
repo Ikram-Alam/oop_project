@@ -1,13 +1,41 @@
 package com.portal.portal.service;
 
+import com.portal.portal.dsa.CustomLinkedList;
 import com.portal.portal.model.Question;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * Exam Service - Now uses QuestionBankService with DSA HashMap implementation
+ */
 @Service
 public class ExamService {
+    
+    @Autowired
+    private QuestionBankService questionBankService;
+    
     public List<Question> getQuestions(String subject) {
+        // Use custom HashMap-based question bank
+        CustomLinkedList<Question> customList = questionBankService.getQuestionsBySubject(subject);
+        
+        if (customList == null) {
+            return new ArrayList<>();
+        }
+        
+        // Convert CustomLinkedList to ArrayList for compatibility
+        List<Question> questions = new ArrayList<>();
+        Object[] questionArray = customList.toArray();
+        for (Object obj : questionArray) {
+            questions.add((Question) obj);
+        }
+        
+        return questions;
+    }
+    
+    // Legacy method - kept for backward compatibility
+    public List<Question> getQuestionsLegacy(String subject) {
         List<Question> questions = new ArrayList<>();
 
         if (subject.equalsIgnoreCase("Math")) {

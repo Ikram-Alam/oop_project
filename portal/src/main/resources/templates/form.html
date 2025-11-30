@@ -14,10 +14,15 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(to right, #667eea, #764ba2);
-            height: 100vh;
+            min-height: 100vh;
+        }
+        
+        .container {
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
         }
 
         form {
@@ -27,8 +32,7 @@
             padding: 40px 35px;
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s ease-in-out;
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 0.6s ease-out;
         }
 
         h1 {
@@ -37,8 +41,6 @@
             margin-bottom: 25px;
             font-weight: 600;
             font-size: 28px;
-            letter-spacing: 1px;
-            animation: slideDown 0.6s ease-out;
         }
 
         label {
@@ -47,7 +49,6 @@
             margin-top: 15px;
             display: block;
             font-weight: 500;
-            transition: color 0.3s ease;
         }
 
         input, select {
@@ -79,59 +80,47 @@
             background: linear-gradient(to right, #667eea, #764ba2);
             color: white;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: linear-gradient(to right, #5a67d8, #6b46c1);
             transform: scale(1.02);
         }
 
-        button:active {
-            transform: scale(0.98);
-        }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 600px) {
-            form {
-                padding: 25px 20px;
-            }
         }
     </style>
 </head>
 <body>
-    <form action="/submit-form" method="post">
-        <h1>Student Registration</h1>
-        <label>Name:</label>
-        <input type="text" name="name" required>
+    <div th:replace="~{navbar :: navbar}"></div>
+    
+    <div class="container">
+        <form action="/submit-form" method="post">
+            <h1>📝 Student Registration</h1>
+            <label>Name:</label>
+            <input type="text" name="name" required>
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-        <label>Contact:</label>
-        <input type="text" name="contact" required>
+            <label>Contact:</label>
+            <input type="text" name="contact" required>
 
-        <label>Department:</label>
-        <input type="text" name="department" required>
+            <label>Department:</label>
+            <input type="text" name="department" required>
 
-        <label>Gender:</label>
-        <select name="gender" required>
-            <option value="">Select gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-        </select>
+            <label>Gender:</label>
+            <select name="gender" required>
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit">Submit & Join Queue</button>
+        </form>
+    </div>
 </body>
 </html>

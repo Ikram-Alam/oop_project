@@ -14,10 +14,15 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, #d4fc79, #96e6a1);
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .container {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: calc(100vh - 60px);
             padding: 20px;
         }
 
@@ -95,6 +100,8 @@
     </style>
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="container">
 <div class="card">
     <h2>Student Information</h2>
     <p><strong>Name:</strong> <span th:text="${student.name}"></span></p>
@@ -103,8 +110,11 @@
     <p><strong>Department:</strong> <span th:text="${student.department}"></span></p>
     <p><strong>Gender:</strong> <span th:text="${student.gender}"></span></p>
     <p><strong>Roll Number:</strong> <span th:text="${student.rollNumber}"></span></p>
+    <p th:if="${queuePosition != null}"><strong>Queue Position:</strong> <span th:text="${queuePosition}"></span></p>
 
     <a href="/select-subject">Start Exam</a>
+    <a href="/queue-status" style="background: linear-gradient(to right, #ff6b6b, #ee5a6f);">View Queue Status</a>
+</div>
 </div>
 </body>
 </html>

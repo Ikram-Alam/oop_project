@@ -14,13 +14,17 @@
         body {
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             flex-direction: column;
-            padding: 40px;
-            color: #333;
+            min-height: calc(100vh - 60px);
+            padding: 40px 20px;
         }
 
         h2 {
@@ -29,7 +33,6 @@
             font-weight: 600;
             margin-bottom: 10px;
             color: #333;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         #timer {
@@ -133,10 +136,13 @@
 </head>
 <body>
 
-<h2 th:text="'Exam - ' + ${subject}"></h2>
-<p id="timer">Time left: 30 seconds</p>
+<div th:replace="~{navbar :: navbar}"></div>
 
-<form id="examForm" action="/submit-exam" method="post">
+<div class="container">
+    <h2 th:text="'Exam - ' + ${subject}"></h2>
+    <p id="timer">Time left: 30 seconds</p>
+
+    <form id="examForm" action="/submit-exam" method="post">
     <ol>
         <li th:each="question, iterStat : ${questions}">
             <p th:text="${question.text}"></p>
@@ -162,7 +168,8 @@
         </li>
     </ol>
     <button type="submit">Submit Exam</button>
-</form>
+    </form>
+</div>
 
 <script>
     let timeLeft = 30;

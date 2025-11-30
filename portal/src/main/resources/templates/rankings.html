@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rankings - Exam Portal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+        }
+        .rankings-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stat-box {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        .rank-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rank-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+            min-width: 50px;
+        }
+        .dsa-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #fd7e14;
+            color: white;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-bottom: 20px;
+        }
+        .bst-info {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="rankings-container">
+        <h1>📊 Student Rankings</h1>
+        <div class="dsa-badge">DSA: Binary Search Tree (BST) with Inorder Traversal</div>
+        
+        <div class="bst-info">
+            <strong>BST Implementation:</strong> Students ranked using inorder traversal for sorted order
+            <br>
+            <strong>Time Complexity:</strong> O(log n) for insertion, O(n) for traversal
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">
+                <h3>Highest Score</h3>
+                <p th:if="${highestScore != null}">
+                    <strong th:text="${highestScore.marks}">0</strong> marks
+                    <br>
+                    <small th:text="${highestScore.student.name}">Name</small>
+                </p>
+                <p th:if="${highestScore == null}">N/A</p>
+            </div>
+            <div class="stat-box">
+                <h3>Total Results</h3>
+                <p><strong th:text="${totalResults}">0</strong></p>
+            </div>
+            <div class="stat-box">
+                <h3>Lowest Score</h3>
+                <p th:if="${lowestScore != null}">
+                    <strong th:text="${lowestScore.marks}">0</strong> marks
+                    <br>
+                    <small th:text="${lowestScore.student.name}">Name</small>
+                </p>
+                <p th:if="${lowestScore == null}">N/A</p>
+            </div>
+        </div>
+
+        <h2>Complete Rankings (Sorted by BST Inorder Traversal)</h2>
+        
+        <div th:if="${#arrays.length(rankedResults) == 0}">
+            <p>No rankings available yet.</p>
+        </div>
+
+        <div th:if="${#arrays.length(rankedResults) > 0}">
+            <div th:each="result, iterStat : ${rankedResults}" class="rank-item">
+                <div class="rank-number">#<span th:text="${iterStat.index + 1}">1</span></div>
+                <div style="flex: 1;">
+                    <strong th:text="${result.student.name}">Student Name</strong>
+                    <br>
+                    <small th:text="${result.student.rollNumber}">ROLL123</small>
+                    <small> | </small>
+                    <small th:text="${result.subject}">Subject</small>
+                </div>
+                <div>
+                    <strong th:text="${result.marks}">0</strong> marks
+                    <br>
+                    <small>Grade: <span th:text="${result.grade}">F</span></small>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="/" style="display: inline-block; margin: 5px; padding: 12px 24px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px; font-weight: 500;">🏠 Back to Home</a>
+            <a href="/leaderboard" style="display: inline-block; margin: 5px; padding: 12px 24px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: 500;">🏆 View Leaderboard</a>
+        </div>
+    </div>
+</body>
+</html>

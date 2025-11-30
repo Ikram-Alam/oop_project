@@ -1,7 +1,7 @@
 package com.portal.portal.controller;
 
 import com.portal.portal.model.*;
-import com.portal.portal.service.ExamService;
+import com.portal.portal.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Enhanced Exam Controller with DSA Services
+ */
 @Controller
 public class ExamController {
     Student currentStudent;
@@ -19,8 +22,19 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
+    
+    @Autowired
+    private LeaderboardService leaderboardService;
+    
+    @Autowired
+    private StudentRankingService studentRankingService;
 
     @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+    
+    @GetMapping("/register")
     public String showForm() {
         return "form";
     }
@@ -30,20 +44,21 @@ public class ExamController {
         student.setRollNumber("ROLL" + new Random().nextInt(1000));
         this.currentStudent = student;
 
-        saveStudentDataToJSON(student);  // ✅ Save student to JSON
+        saveStudentDataToJSON(student);
 
         model.addAttribute("student", student);
         return "student_card";
     }
 
     @GetMapping("/select-subject")
-    public String selectSubject() {
+    public String selectSubject(Model model) {
         return "subject_selection";
     }
 
     @PostMapping("/start-exam")
     public String startExam(@RequestParam String subject, Model model) {
         this.selectedSubject = subject;
+        // Using QuestionBankService which uses HashMap (DSA: HashMap)
         this.currentQuestions = examService.getQuestions(subject);
         model.addAttribute("questions", currentQuestions);
         model.addAttribute("subject", subject);
@@ -64,8 +79,17 @@ public class ExamController {
         double percentage = (marks * 100.0) / totalMarks;
         String percentageStr = String.format("%.2f", percentage);
         String grade = examService.getGrade(marks);
+        
+        // Create result object
+        Result result = new Result(currentStudent, selectedSubject, marks, grade, percentage);
+        
+        // Add to leaderboard (DSA: Priority Queue/Max Heap)
+        leaderboardService.addResult(result);
+        
+        // Add to ranking tree (DSA: Binary Search Tree)
+        studentRankingService.insertResult(result);
 
-        saveResultToJSON(currentStudent, selectedSubject, marks, grade, percentageStr);  // ✅ Save result to JSON
+        saveResultToJSON(currentStudent, selectedSubject, marks, grade, percentageStr);
 
         model.addAttribute("marks", marks);
         model.addAttribute("grade", grade);
@@ -73,8 +97,37 @@ public class ExamController {
         model.addAttribute("percentage", percentageStr);
         model.addAttribute("studentName", currentStudent.getName());
         model.addAttribute("rollNo", currentStudent.getRollNumber());
+        
+        // Add DSA-based insights
+        model.addAttribute("topPerformer", leaderboardService.getTopPerformer());
+        model.addAttribute("averageMarks", String.format("%.2f", leaderboardService.getAverageMarks()));
 
         return "result";
+    }
+    
+    /**
+     * View Leaderboard - Uses Priority Queue (Max Heap)
+     */
+    @GetMapping("/leaderboard")
+    public String viewLeaderboard(Model model) {
+        List<Result> topPerformers = leaderboardService.getTopNPerformers(10);
+        model.addAttribute("topPerformers", topPerformers);
+        model.addAttribute("totalResults", leaderboardService.getTotalResults());
+        model.addAttribute("averageMarks", String.format("%.2f", leaderboardService.getAverageMarks()));
+        return "leaderboard";
+    }
+    
+    /**
+     * View Rankings - Uses Binary Search Tree
+     */
+    @GetMapping("/rankings")
+    public String viewRankings(Model model) {
+        Object[] rankedResults = studentRankingService.getRankedResults().toArray();
+        model.addAttribute("rankedResults", rankedResults);
+        model.addAttribute("totalResults", studentRankingService.getTotalResults());
+        model.addAttribute("highestScore", studentRankingService.getHighestScore());
+        model.addAttribute("lowestScore", studentRankingService.getLowestScore());
+        return "rankings";
     }
 
     // ✅ Save student info as JSON
@@ -112,142 +165,3 @@ public class ExamController {
         }
     }
 }
-
-
-// package com.portal.portal.controller;
-
-// import com.portal.portal.model.*;
-// import com.portal.portal.service.ExamService;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.*;
-// import java.util.*;
-
-// @Controller
-// public class ExamController {
-//     Student currentStudent;
-//     private List<Question> currentQuestions;
-//     String selectedSubject;
-
-//     @Autowired
-//     private ExamService examService;
-
-//     @GetMapping("/")
-//     public String showForm() {
-//         return "form";
-//     }
-
-// @PostMapping("/submit-form")
-// public String submitForm(@ModelAttribute Student student, Model model) {
-//     student.setRollNumber("ROLL" + new Random().nextInt(1000));
-//     this.currentStudent = student;
-//     model.addAttribute("student", student);
-//     return "student_card";  // this should match your HTML template name in `templates/`
-// }
-
-//     @GetMapping("/select-subject")
-//     public String selectSubject() {
-//         return "subject_selection";
-//     }
-
-//     @PostMapping("/start-exam")
-//     public String startExam(@RequestParam String subject, Model model) {
-//         this.selectedSubject = subject;
-//         this.currentQuestions = examService.getQuestions(subject);
-//         model.addAttribute("questions", currentQuestions);
-//         model.addAttribute("subject", subject);
-//         return "exam";
-//     }
-
-
-// @PostMapping("/submit-exam")
-// public String submitExam(@RequestParam Map<String, String> allParams, Model model) {
-//     List<String> userAnswers = new ArrayList<>();
-//     for (int i = 0; i < currentQuestions.size(); i++) {
-//         userAnswers.add(allParams.get("answers[" + i + "]"));
-//     }
-
-//     int totalQuestions = currentQuestions.size();  // dynamic & safe
-//     int totalMarks = totalQuestions * 1;           // because each correct = 1 marks
-
-//     int marks = examService.calculateMarks(userAnswers, currentQuestions);  // correct total
-//     double percentage = (marks * 100.0) / totalMarks;
-
-//     model.addAttribute("marks", marks);
-//     model.addAttribute("grade", examService.getGrade(marks));
-//     model.addAttribute("subject", selectedSubject);
-//     model.addAttribute("percentage", String.format("%.2f", percentage));
-
-//     model.addAttribute("studentName", currentStudent.getName());
-//     model.addAttribute("rollNo", currentStudent.getRollNumber());
-
-//     return "result";
-//   }
-// }
-
-
-// @PostMapping("/submit-exam")
-// public String submitExam(@RequestParam Map<String, String> allParams, Model model,Student student) {
-//     List<String> userAnswers = new ArrayList<>();
-//     for (int i = 0; i < currentQuestions.size(); i++) {
-//         userAnswers.add(allParams.get("answers[" + i + "]"));
-//     }
-
-//     int marks = examService.calculateMarks(userAnswers, currentQuestions);
-//     String grade = examService.getGrade(marks);
-
-//     model.addAttribute("marks", marks);
-//     model.addAttribute("grade", grade);
-//     model.addAttribute("subject", selectedSubject);
-
-//     // Dummy student info (you can enhance this later)
-//     model.addAttribute("studentName", student);
-//     model.addAttribute("rollNo", "2025-SE-001");
-
-//     return "result";
-//     }
-// @PostMapping("/submit-exam")
-// public String submitExam(@RequestParam Map<String, String> allParams, Model model) {
-//     List<String> userAnswers = new ArrayList<>();
-//     for (int i = 0; i < currentQuestions.size(); i++) {
-//         userAnswers.add(allParams.get("answers[" + i + "]"));
-//     }
-
-//     int marks = examService.calculateMarks(userAnswers, currentQuestions);
-//     String grade = examService.getGrade(marks);
-
-//     model.addAttribute("marks", marks);
-//     model.addAttribute("grade", grade);
-//     model.addAttribute("subject", selectedSubject);
-
-//     // ✅ Use actual student info from currentStudent
-//     model.addAttribute("studentName", currentStudent.getName());
-//     model.addAttribute("rollNo", currentStudent.getRollNumber());
-
-//     return "result";
-// }
-
-// @PostMapping("/submit-exam")
-// public String submitExam(@RequestParam Map<String, String> allParams, Model model) {
-//     List<String> userAnswers = new ArrayList<>();
-//     for (int i = 0; i < currentQuestions.size(); i++) {
-//         userAnswers.add(allParams.get("answers[" + i + "]"));
-//     }
-
-//     int totalQuestions = currentQuestions.size();  // total = 15
-//     int totalMarks = totalQuestions;               // assuming 1 mark per question
-
-//     int marks = examService.calculateMarks(userAnswers, currentQuestions);  // e.g., 12
-//     double percentage = (marks * 100.0) / totalMarks;
-
-//     model.addAttribute("marks", marks);
-//     model.addAttribute("grade", examService.getGrade(marks));
-//     model.addAttribute("subject", selectedSubject);
-//     model.addAttribute("percentage", String.format("%.2f", percentage));
-
-//     model.addAttribute("studentName", currentStudent.getName());
-//     model.addAttribute("rollNo", currentStudent.getRollNumber());
-
-//     return "result";
-// }
